@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:suma_resta/operationPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -14,6 +15,8 @@ class _HomePageState extends State<HomePage> {
   int _operationHeight = 0;
   MaterialColor buttonColor = Colors.yellow;
 
+  /* --------------deprecated-----------------------
+
   void _setOperationAdd(){
     setState(() {
       _operation = '+';
@@ -24,20 +27,22 @@ class _HomePageState extends State<HomePage> {
       _operation = '-';
     });
   }
+*/
+  void _setOperation({required String operation}){
+    setState(() {
+      if (operation=='+') {
+        _operation = '+';
+      } else if (operation=='-'){
+        _operation = '-';
+      } else {
+        _operation = '+';
+      }
+    });
+  }
 
   void _setOperationHeight({required int number}){
     setState(() {
       _operationHeight = number;
-    });
-  }
-
-  void _setButtonColor(){
-    setState(() {
-      if (buttonColor==Colors.yellow) {
-        buttonColor = Colors.deepOrange;
-      } else {
-        buttonColor = Colors.yellow;
-      }
     });
   }
 
@@ -68,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           TextButton(
-                              onPressed: _setOperationAdd,
+                              onPressed: () => _setOperation(operation: '+'),
                               child: Text(
                                   '+',
                                 style: TextStyle(
@@ -80,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                           ),
                           TextButton(
-                            onPressed: _setOperationSubtract,
+                            onPressed: () => _setOperation(operation: '-'),
                             child: Text(
                               '-',
                               style: TextStyle(
@@ -166,7 +171,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               TextButton(
-                onPressed: _setButtonColor,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const OperationPage(title: 'Operación')
+                    )
+                  );
+                },
                 style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.blue),
                 ),
