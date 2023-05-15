@@ -175,7 +175,11 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const OperationPage(title: 'Operación')
+                        builder: (context) => OperationPage(
+                          title: 'Operación',
+                          operationHeight: _operationHeight,
+                          operation: _operation,
+                        )
                     )
                   );
                 },
