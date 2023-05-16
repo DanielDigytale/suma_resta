@@ -33,7 +33,13 @@ class _OperationPageState extends State<OperationPage> {
         title: Center(child: Text('${widget.title} ${widget.operation}')),
       ),
       body: Container(
-        color: Colors.black54,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/backgroundNumbers.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        //color: Colors.black54,
         child: Center(
           child: Column( // two containers and a button to test the result
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -41,7 +47,10 @@ class _OperationPageState extends State<OperationPage> {
               Container( // first container - operation
                 height: 300,
                 width: 300,
-                color: Colors.blueGrey,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(32),
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -58,9 +67,12 @@ class _OperationPageState extends State<OperationPage> {
                 ),
               ),
               Container( // second container button with numbers.
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey[700],
+                  borderRadius: BorderRadius.circular(32),
+                ),
                 height: 300,
                 width: 300,
-                color: Colors.blueGrey[700],
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -78,16 +90,7 @@ class _OperationPageState extends State<OperationPage> {
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: () => print('comprobar resultado'),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.blue),
-                ),
-                child: Text(
-                  'comprobar resultado',
-                  style: TextStyle(fontSize: 30, color: Colors.white),
-                ),
-              ),
+              _resultButton(),
             ],
           ),
         ),
@@ -132,9 +135,10 @@ class _OperationPageState extends State<OperationPage> {
       '$valuePosition',
       style: TextStyle(
         fontSize: 50,
-        color: (_positionInResult == position)
-            ? Colors.yellowAccent
-            : Colors.white,
+        color: Colors.white,
+        backgroundColor: (_positionInResult == position)
+            ?Colors.orange
+            :Colors.blue,
       ),
     );
   }
@@ -143,6 +147,7 @@ class _OperationPageState extends State<OperationPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
+
         _resultPosition(position: 5),
         _resultPosition(position: 4),
         _resultPosition(position: 3),
@@ -164,12 +169,13 @@ class _OperationPageState extends State<OperationPage> {
   }
 
   Widget _buttonNumber({required int number}){
-    return TextButton(
+    return ElevatedButton(
       onPressed: () => _buttonPressed(number: number),
+      style: ButtonStyle(),
       child: Text(
         '$number',
         style:
-        TextStyle(fontSize: 30, color: Colors.white),
+        TextStyle(fontSize: 30, color: Colors.white,),
       ),
     );
   }
@@ -223,5 +229,19 @@ class _OperationPageState extends State<OperationPage> {
     } // if
     return number;
   }
+
+  Widget _resultButton(){
+    return ElevatedButton(
+      onPressed: () => null,
+      style: ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(Colors.blue),
+      ),
+      child: Text(
+        'comprobar resultado',
+        style: TextStyle(fontSize: 30, color: Colors.white),
+      ),
+    );
+
+  } // resultButton
 
 } // _OperationPageState
