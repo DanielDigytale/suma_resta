@@ -14,28 +14,20 @@ class _HomePageState extends State<HomePage> {
   String _operation = '';
   int _operationHeight = 0;
   MaterialColor buttonColor = Colors.yellow;
+  MaterialColor buttonColorSelected = Colors.deepOrange;
 
-  /* --------------deprecated-----------------------
-
-  void _setOperationAdd(){
+    void _setOperation({required String operation}){
     setState(() {
-      _operation = '+';
-    });
-  }
-  void _setOperationSubtract(){
-    setState(() {
-      _operation = '-';
-    });
-  }
-*/
-  void _setOperation({required String operation}){
-    setState(() {
-      if (operation=='+') {
-        _operation = '+';
-      } else if (operation=='-'){
-        _operation = '-';
-      } else {
-        _operation = '+';
+      if (operation==_operation) { // deselect operation.
+        _operation = ' ';
+      } else { // select an operation
+        if (operation == '+') {
+          _operation = '+';
+        } else if (operation == '-') {
+          _operation = '-';
+        } else {
+          _operation = '+';
+        }
       }
     });
   }
@@ -79,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                   fontSize: 100.0,
                                   color: (_operation=='+')
-                                      ? Colors.deepOrange
+                                      ? buttonColorSelected
                                       : buttonColor,
                                 ),
                               ),
@@ -91,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontSize: 100.0,
                                 color: (_operation=='-')
-                                    ? Colors.deepOrange
+                                    ? buttonColorSelected
                                     : buttonColor,
                               ),
                             ),
@@ -123,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontSize: 100.0,
                                 color: (_operationHeight==2)
-                                  ? Colors.deepOrange
+                                  ? buttonColorSelected
                                   : buttonColor
                               ),
                             ),
@@ -135,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontSize: 100.0,
                                 color: (_operationHeight==3)
-                                    ? Colors.deepOrange
+                                    ? buttonColorSelected
                                     : buttonColor,
                               ),
                             ),
@@ -147,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontSize: 100.0,
                                 color: (_operationHeight==4)
-                                    ? Colors.deepOrange
+                                    ? buttonColorSelected
                                     : buttonColor,
                               ),
                             ),
@@ -159,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontSize: 100.0,
                                 color: (_operationHeight==5)
-                                    ? Colors.deepOrange
+                                    ? buttonColorSelected
                                     : buttonColor,
                               ),
                             ),
@@ -172,16 +164,19 @@ class _HomePageState extends State<HomePage> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => OperationPage(
-                          title: 'Operación',
-                          operationHeight: _operationHeight,
-                          operation: _operation,
+                  if ((_operationHeight!=0)&&((_operation=='+')||(_operation=='-'))) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                OperationPage(
+                                  title: 'Operación',
+                                  operationHeight: _operationHeight,
+                                  operation: _operation,
+                                )
                         )
-                    )
-                  );
+                    );
+                  }
                 },
                 style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.blue),
