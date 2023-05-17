@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'dart:math';
+import 'dart:math';
 
 class OperationPage extends StatefulWidget {
   OperationPage({
@@ -22,8 +22,8 @@ class OperationPage extends StatefulWidget {
 }
 
 class _OperationPageState extends State<OperationPage> {
-  int _positionInResult = 1;
-  int _numberPressed = 0;
+  int _positionInResult = 0;
+    var listResult = [0,0,0,0,0,0];
 
   @override
   Widget build(BuildContext context) {
@@ -125,10 +125,9 @@ class _OperationPageState extends State<OperationPage> {
     );
   }
 
-  Widget _resultPosition({required int position, int valuePosition=0}) {
-    int actualValue = 0;
+  Widget _resultPosition({required int position,required int valuePosition}) {
     return Text(
-      (_positionInResult != position) ?'$actualValue' : '$valuePosition',
+      '$valuePosition',
       style: TextStyle(
         fontSize: 50,
         color: Colors.white,
@@ -144,9 +143,9 @@ class _OperationPageState extends State<OperationPage> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          _resultPosition(position: 3, valuePosition: _numberPressed),
-          _resultPosition(position: 2, valuePosition: _numberPressed),
-          _resultPosition(position: 1, valuePosition: _numberPressed),
+          _resultPosition(position: 2, valuePosition: listResult[2]),
+          _resultPosition(position: 1, valuePosition: listResult[1]),
+          _resultPosition(position: 0, valuePosition: listResult[0]),
           Text(
             '     ',
             style: TextStyle(fontSize: 50, color: Colors.white),
@@ -157,10 +156,10 @@ class _OperationPageState extends State<OperationPage> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          _resultPosition(position: 4, valuePosition: _numberPressed),
-          _resultPosition(position: 3, valuePosition: _numberPressed),
-          _resultPosition(position: 2, valuePosition: _numberPressed),
-          _resultPosition(position: 1, valuePosition: _numberPressed),
+          _resultPosition(position: 3, valuePosition: listResult[3]),
+          _resultPosition(position: 2, valuePosition: listResult[2]),
+          _resultPosition(position: 1, valuePosition: listResult[1]),
+          _resultPosition(position: 0, valuePosition: listResult[0]),
           Text(
             '     ',
             style: TextStyle(fontSize: 50, color: Colors.white),
@@ -171,11 +170,11 @@ class _OperationPageState extends State<OperationPage> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          _resultPosition(position: 5, valuePosition: _numberPressed),
-          _resultPosition(position: 4, valuePosition: _numberPressed),
-          _resultPosition(position: 3, valuePosition: _numberPressed),
-          _resultPosition(position: 2, valuePosition: _numberPressed),
-          _resultPosition(position: 1, valuePosition: _numberPressed),
+          _resultPosition(position: 4, valuePosition: listResult[4]),
+          _resultPosition(position: 3, valuePosition: listResult[3]),
+          _resultPosition(position: 2, valuePosition: listResult[2]),
+          _resultPosition(position: 1, valuePosition: listResult[1]),
+          _resultPosition(position: 0, valuePosition: listResult[0]),
           Text(
             '     ',
             style: TextStyle(fontSize: 50, color: Colors.white),
@@ -186,12 +185,12 @@ class _OperationPageState extends State<OperationPage> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          _resultPosition(position: 6, valuePosition: _numberPressed),
-          _resultPosition(position: 5, valuePosition: _numberPressed),
-          _resultPosition(position: 4, valuePosition: _numberPressed),
-          _resultPosition(position: 3, valuePosition: _numberPressed),
-          _resultPosition(position: 2, valuePosition: _numberPressed),
-          _resultPosition(position: 1, valuePosition: _numberPressed),
+          _resultPosition(position: 5, valuePosition: listResult[5]),
+          _resultPosition(position: 4, valuePosition: listResult[4]),
+          _resultPosition(position: 3, valuePosition: listResult[3]),
+          _resultPosition(position: 2, valuePosition: listResult[2]),
+          _resultPosition(position: 1, valuePosition: listResult[1]),
+          _resultPosition(position: 0, valuePosition: listResult[0]),
           Text(
             '     ',
             style: TextStyle(fontSize: 50, color: Colors.white),
@@ -203,7 +202,7 @@ class _OperationPageState extends State<OperationPage> {
 
   void _buttonNumberPressed({required int number}){
     setState(() {
-      _numberPressed = number;
+      listResult[_positionInResult] = number;
     });
   }
 
@@ -221,13 +220,13 @@ class _OperationPageState extends State<OperationPage> {
   void _buttonNextPressed({required int next}){
     setState(() {
       if (next==1){
-        if (_positionInResult <= widget.operationHeight) {
+        if (_positionInResult < widget.operationHeight) {
           // not the last position including last result with 2 digits.
           _positionInResult++;
         }
       }
       if (next==-1){
-        if (_positionInResult > 1) { // not the first position
+        if (_positionInResult > 0) { // not the first position
           _positionInResult--;
         }
       }
@@ -286,15 +285,33 @@ class _OperationPageState extends State<OperationPage> {
     );
   }
 
+  void _testResult(){
+    setState(() {
+      int resultUser = 0;
+      int resultReal = 0;
+
+      for (int i=0; i<=widget.operationHeight;i++){
+        resultUser = resultUser + (listResult[i]*pow(10, i).toInt());
+      }
+      if (widget.operation=='+') { // sum
+        resultReal = widget.operator1 + widget.operator2;
+      } else { // subtract
+        resultReal = widget.operator1 - widget.operator2;
+      }
+      print((resultUser==resultReal));
+    });
+
+  }
+
   Widget _resultButton(){
     return ElevatedButton(
-      onPressed: () => null,
+      onPressed: () => _testResult(),
       style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(Colors.blue),
       ),
       child: Text(
-        'comprobar resultado',
-        style: TextStyle(fontSize: 30, color: Colors.white),
+        'comprobar',
+        style: TextStyle(fontSize: 50, color: Colors.white),
       ),
     );
 
