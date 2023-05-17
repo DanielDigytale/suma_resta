@@ -23,6 +23,7 @@ class OperationPage extends StatefulWidget {
 
 class _OperationPageState extends State<OperationPage> {
   int _positionInResult = 1;
+  int _numberPressed = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +80,7 @@ class _OperationPageState extends State<OperationPage> {
                       _rowNumber(rowNumber: 1), // numbers 1 2 3
                       _rowNumber(rowNumber: 2), // numbers 4 5 6
                       _rowNumber(rowNumber: 3), // numbers 7 8 9
-                      Row(                      // number    0
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buttonNumber(number: 0),
-                        ],
-                      ),
+                      _rowNumber(rowNumber: 4), // number    0
                     ],
                   ),
                 ),
@@ -130,8 +126,9 @@ class _OperationPageState extends State<OperationPage> {
   }
 
   Widget _resultPosition({required int position, int valuePosition=0}) {
+    int actualValue = 0;
     return Text(
-      '$valuePosition',
+      (_positionInResult != position) ?'$actualValue' : '$valuePosition',
       style: TextStyle(
         fontSize: 50,
         color: Colors.white,
@@ -146,36 +143,61 @@ class _OperationPageState extends State<OperationPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        _resultPosition(position: 5),
-        _resultPosition(position: 4),
-        _resultPosition(position: 3),
-        _resultPosition(position: 3),
-        _resultPosition(position: 1),
+        _resultPosition(position: 5, valuePosition: _numberPressed),
+        _resultPosition(position: 4, valuePosition: _numberPressed),
+        _resultPosition(position: 3, valuePosition: _numberPressed),
+        _resultPosition(position: 2, valuePosition: _numberPressed),
+        _resultPosition(position: 1, valuePosition: _numberPressed),
         Text(
-          '    ',
+          '     ',
           style: TextStyle(fontSize: 50, color: Colors.white),
         ),
       ],
     );
   }
 
-  void _buttonPressed({required int number}){
+  void _buttonNumberPressed({required int number}){
     setState(() {
-      _resultPosition(position: _positionInResult, valuePosition: number);
-      _positionInResult = _positionInResult+1;
+      _numberPressed = number;
     });
   }
 
   Widget _buttonNumber({required int number}){
     return ElevatedButton(
-      onPressed: () => _buttonPressed(number: number),
+      onPressed: () => _buttonNumberPressed(number: number),
       child: Text(
         '$number',
         style:
-        TextStyle(fontSize: 30, color: Colors.white,),
+        TextStyle(fontSize: 40, color: Colors.white,),
       ),
     );
-  }
+  } // buttonNumber
+
+  void _buttonNextPressed({required int next}){
+    setState(() {
+      if (next==1){
+        if (_positionInResult < widget.operationHeight) { // not the last position
+          _positionInResult++;
+        }
+      }
+      if (next==-1){
+        if (_positionInResult > 1) { // not the first position
+          _positionInResult--;
+        }
+      }
+    });
+  } // buttonNextPressed
+
+  Widget _buttonNext({required int next}){ // next: +1 next, -1 previous
+    return ElevatedButton(
+      onPressed: () => _buttonNextPressed(next: next),
+      child: Text(
+      (next==1) ?'<-' : '->',
+        style:
+        TextStyle(fontSize: 40, color: Colors.white,),
+      ),
+    );
+  } // buttonNext
   
   Widget _rowNumber({required int rowNumber}) {
     var a=0;
@@ -193,6 +215,20 @@ class _OperationPageState extends State<OperationPage> {
       a = 7;
       b = 8;
       c = 9;
+    } else if (rowNumber==4){
+      a=10;
+      b=0;
+      c=11;
+    }
+    if (rowNumber==4){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buttonNext(next: 1),
+          _buttonNumber(number: b),
+          _buttonNext(next: -1),
+        ],
+      );
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -203,33 +239,6 @@ class _OperationPageState extends State<OperationPage> {
       ],
     );
   }
-
-  /*int _constructorOperator({required int operatorPosition}) {
-    if ((operatorPosition==1)&&(_operator1!=0)) return _operator1;
-    if ((operatorPosition==2)&&(_operator2!=0)) return _operator2;
-
-    int number = 0;
-    if (operatorPosition == 1) {
-      for (int i = 0; i < widget.operationHeight; i++) {
-        if (i==(widget.operationHeight-1)){ // last digit has to be always [1..9]
-          number = number + (Random().nextInt(9) * pow(10, i).toInt()+1);
-        } else {
-          number = number + (Random().nextInt(9) * pow(10, i).toInt());
-        }
-      } // for
-    } else {
-      // operatorPosition==2
-      if (widget.operation == '+') {
-        for (int i = 0; i < widget.operationHeight; i++) {
-          number = number + (Random().nextInt(10) * pow(10, i).toInt());
-        } // for
-      } else {
-        // operation=='-', operator2 must be less than operator1
-        number = _operator1 - (Random().nextInt(_operator1));
-      }
-    } // if
-    return number;
-  }*/
 
   Widget _resultButton(){
     return ElevatedButton(
