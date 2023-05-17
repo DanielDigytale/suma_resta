@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+//import 'dart:math';
 
 class OperationPage extends StatefulWidget {
   OperationPage({
@@ -7,27 +7,25 @@ class OperationPage extends StatefulWidget {
     required this.title,
     required this.operationHeight,
     required this.operation,
+    required this.operator1,
+    required this.operator2,
   });
 
   final String title;
   final int operationHeight;
   final String operation;
+  final int operator1;
+  final int operator2;
 
   @override
   State<OperationPage> createState() => _OperationPageState();
 }
 
 class _OperationPageState extends State<OperationPage> {
-  int _operator1 = 0;
-  int _operator2 = 0;
   int _positionInResult = 1;
+
   @override
   Widget build(BuildContext context) {
-
-    _operator1 = _constructorOperator(operatorPosition: 1);
-    _operator2 = _constructorOperator(operatorPosition: 2);
-
-
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('${widget.title} ${widget.operation}')),
@@ -45,6 +43,7 @@ class _OperationPageState extends State<OperationPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Container( // first container - operation
+                padding: EdgeInsets.all(10.0),
                 height: 300,
                 width: 300,
                 decoration: BoxDecoration(
@@ -105,7 +104,7 @@ class _OperationPageState extends State<OperationPage> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Text(
-          (operatorPosition == 1) ? '$_operator1' : '$_operator2',
+          (operatorPosition == 1) ? '${widget.operator1}' : '${widget.operator2}',
           style: TextStyle(fontSize: 50, color: Colors.white),
         ),
         Text(
@@ -147,7 +146,6 @@ class _OperationPageState extends State<OperationPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-
         _resultPosition(position: 5),
         _resultPosition(position: 4),
         _resultPosition(position: 3),
@@ -171,7 +169,6 @@ class _OperationPageState extends State<OperationPage> {
   Widget _buttonNumber({required int number}){
     return ElevatedButton(
       onPressed: () => _buttonPressed(number: number),
-      style: ButtonStyle(),
       child: Text(
         '$number',
         style:
@@ -207,14 +204,18 @@ class _OperationPageState extends State<OperationPage> {
     );
   }
 
-  int _constructorOperator({required int operatorPosition}) {
+  /*int _constructorOperator({required int operatorPosition}) {
     if ((operatorPosition==1)&&(_operator1!=0)) return _operator1;
     if ((operatorPosition==2)&&(_operator2!=0)) return _operator2;
 
     int number = 0;
     if (operatorPosition == 1) {
       for (int i = 0; i < widget.operationHeight; i++) {
-        number = number + (Random().nextInt(10) * pow(10, i).toInt());
+        if (i==(widget.operationHeight-1)){ // last digit has to be always [1..9]
+          number = number + (Random().nextInt(9) * pow(10, i).toInt()+1);
+        } else {
+          number = number + (Random().nextInt(9) * pow(10, i).toInt());
+        }
       } // for
     } else {
       // operatorPosition==2
@@ -228,7 +229,7 @@ class _OperationPageState extends State<OperationPage> {
       }
     } // if
     return number;
-  }
+  }*/
 
   Widget _resultButton(){
     return ElevatedButton(

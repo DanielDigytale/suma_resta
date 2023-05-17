@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suma_resta/operationPage.dart';
+import 'dart:math';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -13,6 +14,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String _operation = '';
   int _operationHeight = 0;
+  int _operator1 = 0;
+  int _operator2 = 0;
   MaterialColor buttonColor = Colors.yellow;
   MaterialColor buttonColorSelected = Colors.deepOrange;
 
@@ -29,7 +32,6 @@ class _HomePageState extends State<HomePage> {
             fit: BoxFit.cover,
           ),
         ),
-        // color: Colors.black54,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -41,7 +43,6 @@ class _HomePageState extends State<HomePage> {
                 ),
                 height: 300,
                 width: 300,
-
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -156,6 +157,8 @@ class _HomePageState extends State<HomePage> {
       onPressed: () {
         if ((_operationHeight != 0) &&
             ((_operation == '+') || (_operation == '-'))) {
+          generateOperator(operatorPosition: 1);
+          generateOperator(operatorPosition: 2);
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -163,9 +166,13 @@ class _HomePageState extends State<HomePage> {
                     title: 'Operación',
                     operationHeight: _operationHeight,
                     operation: _operation,
-                  )));
+                    operator1: _operator1,
+                    operator2: _operator2,
+                  )
+              )
+          ); // push
         }
-      },
+      }, // onPressed
       style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(Colors.blue),
       ),
@@ -178,5 +185,28 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   } // continueButton
+
+  generateOperator({required int operatorPosition}){
+    int number = 0;
+
+    for (int i = 0; i < _operationHeight; i++) {
+      if (i==(_operationHeight-1)){ // last digit has to be always [1..9]
+        number = number + (Random().nextInt(9) * pow(10, i).toInt()+1);
+      } else {
+        number = number + (Random().nextInt(9) * pow(10, i).toInt());
+      }
+    }
+    if (operatorPosition==1) { // always ok
+      _operator1 = number;
+    } else { // operatorPosition==2
+      if (_operation=='+'){ // with sum, operator2 can be anything
+        _operator2 = number;
+      } else { // operator2 & subtract, second must be less than first
+        _operator2 = _operator1;
+        _operator1 = number;
+      }
+    }
+
+}
 
 } // HomePageState
