@@ -140,20 +140,65 @@ class _OperationPageState extends State<OperationPage> {
   }
 
   Widget _rowResult() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        _resultPosition(position: 5, valuePosition: _numberPressed),
-        _resultPosition(position: 4, valuePosition: _numberPressed),
-        _resultPosition(position: 3, valuePosition: _numberPressed),
-        _resultPosition(position: 2, valuePosition: _numberPressed),
-        _resultPosition(position: 1, valuePosition: _numberPressed),
-        Text(
-          '     ',
-          style: TextStyle(fontSize: 50, color: Colors.white),
-        ),
-      ],
-    );
+    if (widget.operationHeight==2){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _resultPosition(position: 3, valuePosition: _numberPressed),
+          _resultPosition(position: 2, valuePosition: _numberPressed),
+          _resultPosition(position: 1, valuePosition: _numberPressed),
+          Text(
+            '     ',
+            style: TextStyle(fontSize: 50, color: Colors.white),
+          ),
+        ],
+      );
+    } else if (widget.operationHeight==3){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _resultPosition(position: 4, valuePosition: _numberPressed),
+          _resultPosition(position: 3, valuePosition: _numberPressed),
+          _resultPosition(position: 2, valuePosition: _numberPressed),
+          _resultPosition(position: 1, valuePosition: _numberPressed),
+          Text(
+            '     ',
+            style: TextStyle(fontSize: 50, color: Colors.white),
+          ),
+        ],
+      );
+    } else if (widget.operationHeight==4){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _resultPosition(position: 5, valuePosition: _numberPressed),
+          _resultPosition(position: 4, valuePosition: _numberPressed),
+          _resultPosition(position: 3, valuePosition: _numberPressed),
+          _resultPosition(position: 2, valuePosition: _numberPressed),
+          _resultPosition(position: 1, valuePosition: _numberPressed),
+          Text(
+            '     ',
+            style: TextStyle(fontSize: 50, color: Colors.white),
+          ),
+        ],
+      );
+    } else { // operationHeight = 5
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _resultPosition(position: 6, valuePosition: _numberPressed),
+          _resultPosition(position: 5, valuePosition: _numberPressed),
+          _resultPosition(position: 4, valuePosition: _numberPressed),
+          _resultPosition(position: 3, valuePosition: _numberPressed),
+          _resultPosition(position: 2, valuePosition: _numberPressed),
+          _resultPosition(position: 1, valuePosition: _numberPressed),
+          Text(
+            '     ',
+            style: TextStyle(fontSize: 50, color: Colors.white),
+          ),
+        ],
+      );
+    }
   }
 
   void _buttonNumberPressed({required int number}){
@@ -176,7 +221,8 @@ class _OperationPageState extends State<OperationPage> {
   void _buttonNextPressed({required int next}){
     setState(() {
       if (next==1){
-        if (_positionInResult < widget.operationHeight) { // not the last position
+        if (_positionInResult <= widget.operationHeight) {
+          // not the last position including last result with 2 digits.
           _positionInResult++;
         }
       }

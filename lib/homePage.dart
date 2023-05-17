@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage> {
 
     for (int i = 0; i < _operationHeight; i++) {
       if (i==(_operationHeight-1)){ // last digit has to be always [1..9]
-        number = number + (Random().nextInt(9) * pow(10, i).toInt()+1);
+        number = number + ((Random().nextInt(8)+1) * pow(10, i).toInt());
       } else {
         number = number + (Random().nextInt(9) * pow(10, i).toInt());
       }
@@ -202,8 +202,12 @@ class _HomePageState extends State<HomePage> {
       if (_operation=='+'){ // with sum, operator2 can be anything
         _operator2 = number;
       } else { // operator2 & subtract, second must be less than first
-        _operator2 = _operator1;
-        _operator1 = number;
+        if (_operator1 < number) { // never subtract to a smaller number
+          _operator2 = _operator1;
+          _operator1 = number;
+        } else { // operator2 & subtract but number <= operator1 = correct
+          _operator2 = number;
+        }
       }
     }
 
