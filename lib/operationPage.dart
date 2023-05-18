@@ -24,6 +24,7 @@ class OperationPage extends StatefulWidget {
 class _OperationPageState extends State<OperationPage> {
   int _positionInResult = 0;
     var listResult = [0,0,0,0,0,0];
+    MaterialColor containerOperationColor = Colors.blueGrey;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class _OperationPageState extends State<OperationPage> {
                 height: 300,
                 width: 300,
                 decoration: BoxDecoration(
-                  color: Colors.blueGrey,
+                  color: containerOperationColor,
                   borderRadius: BorderRadius.circular(32),
                 ),
                 child: Column(
@@ -298,7 +299,11 @@ class _OperationPageState extends State<OperationPage> {
       } else { // subtract
         resultReal = widget.operator1 - widget.operator2;
       }
-      print((resultUser==resultReal));
+      if (resultUser==resultReal){
+        containerOperationColor = Colors.green;
+      } else {
+        containerOperationColor = Colors.red;
+      };
     });
 
   }
