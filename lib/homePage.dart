@@ -16,8 +16,8 @@ class _HomePageState extends State<HomePage> {
   int _operationHeight = 0;
   int _operator1 = 0;
   int _operator2 = 0;
-  MaterialColor buttonColor = Colors.yellow;
-  MaterialColor buttonColorSelected = Colors.deepOrange;
+  Color buttonColor = Colors.white;
+  Color buttonColorSelected = Colors.orangeAccent;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         _operationButton(operation: '+'),
                         _operationButton(operation: '-'),
+                        _operationButton(operation: 'x'),
                       ],
                     ),
                   ],
@@ -109,7 +110,7 @@ class _HomePageState extends State<HomePage> {
         } else if (operation == '-') {
           _operation = '-';
         } else {
-          _operation = '+';
+          _operation = 'x';
         }
       }
     });
@@ -156,7 +157,7 @@ class _HomePageState extends State<HomePage> {
     return ElevatedButton(
       onPressed: () {
         if ((_operationHeight != 0) &&
-            ((_operation == '+') || (_operation == '-'))) {
+            ((_operation == '+') || (_operation == '-') || (_operation=='x'))) {
           generateOperator(operatorPosition: 1);
           generateOperator(operatorPosition: 2);
           Navigator.push(
@@ -201,6 +202,8 @@ class _HomePageState extends State<HomePage> {
     } else { // operatorPosition==2
       if (_operation=='+'){ // with sum, operator2 can be anything
         _operator2 = number;
+      } else if (_operation=='x'){ // with multiplication operator2 has only 1 digit
+        _operator2 = Random().nextInt(8) + 1 ;
       } else { // operator2 & subtract, second must be less than first
         if (_operator1 < number) { // never subtract to a smaller number
           _operator2 = _operator1;

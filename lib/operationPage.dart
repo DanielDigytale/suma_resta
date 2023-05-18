@@ -296,6 +296,8 @@ class _OperationPageState extends State<OperationPage> {
       }
       if (widget.operation=='+') { // sum
         resultReal = widget.operator1 + widget.operator2;
+      } else if (widget.operation=='x') { // multiplication
+        resultReal = widget.operator1 * widget.operator2;
       } else { // subtract
         resultReal = widget.operator1 - widget.operator2;
       }
