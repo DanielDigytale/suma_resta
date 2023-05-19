@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'homePage.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 
@@ -11,12 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'App to sum and rest',
+      title: 'App of math ops easy',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(
-          title: 'Sumar y Restar fácil'
+          title: 'App de + - x fácil'
       ),
     );
   }
