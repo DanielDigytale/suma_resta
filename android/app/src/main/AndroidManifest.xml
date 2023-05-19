@@ -3,7 +3,7 @@
    <application
         android:label="calculaFácil"
         android:name="${applicationName}"
-        android:icon="@mipmap/mando">
+        android:icon="@mipmap/sandy_cheeks">
         <activity
             android:name=".MainActivity"
             android:exported="true"
