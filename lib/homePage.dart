@@ -176,6 +176,7 @@ class _HomePageState extends State<HomePage> {
       }, // onPressed
       style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(Colors.blue),
+
       ),
       child: Text(
         'continuar',

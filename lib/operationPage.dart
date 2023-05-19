@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'soundsPlayer.dart';
 
 class OperationPage extends StatefulWidget {
   OperationPage({
@@ -301,10 +302,13 @@ class _OperationPageState extends State<OperationPage> {
       } else { // subtract
         resultReal = widget.operator1 - widget.operator2;
       }
+      // to show the user if his result is correct
       if (resultUser==resultReal){
+        Player.play('sounds/correctSound.wav');
         containerOperationColor = Colors.green;
       } else {
         containerOperationColor = Colors.red;
+        Player.play('sounds/incorrectSound.wav');
       };
     });
 
