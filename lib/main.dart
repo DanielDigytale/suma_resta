@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(
-          title: 'App de + - x fácil'
+          title: 'App de (+ - x) fácil'
       ),
     );
   }
